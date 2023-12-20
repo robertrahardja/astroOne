@@ -1,8 +1,13 @@
 ---
 
+const testVar = "hello"
+const skillColor = "navy"
+
+import '../styles/global.css'
 ---
 
 <html lang="en">
+
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -10,7 +15,25 @@
 		<meta name="generator" content={Astro.generator} />
 		<title>Astro One</title>
 	</head>
+	<style define:vars={{skillColor}}>
+  h1 {
+    color: purple;
+    font-size: 4rem;
+  }
+  .skill {
+    color: green;
+    color: var(--skillColor);
+    font-weight: bold;
+  }
+</style>
 	<body>
-		<h1>much faster</h1>
+
+
+ <a href="/">Home</a>
+ <a href="/about">About</a>
+
+		<h1>Home</h1>
+		<h1>{testVar}</h1>
+
 	</body>
 </html>

@@ -1,0 +1,15 @@
+  ~/Projects/trial/astroTrial
+   public
+   src
+  │  pages
+  │ │  posts
+  │ │ └  post-1.md         ★ 
+  │ │ 󰈙 about.astro        ✗ 
+  │ └ 󰈙 index.astro        ✗ 
+  └  env.d.ts
+   README.md
+   astro.config.mjs
+   package.json
+   tsconfig.json
+  󰌾 yarn.lock
+  (4 hidden items)
