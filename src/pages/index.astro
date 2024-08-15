@@ -1,13 +1,10 @@
 ---
-
 const testVar = "hello"
 const skillColor = "navy"
-
 import '../styles/global.css'
 ---
 
 <html lang="en">
-
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -15,25 +12,53 @@ import '../styles/global.css'
 		<meta name="generator" content={Astro.generator} />
 		<title>Astro One</title>
 	</head>
-	<style define:vars={{skillColor}}>
-  h1 {
-    color: purple;
-    font-size: 4rem;
-  }
-  .skill {
-    color: green;
-    color: var(--skillColor);
-    font-weight: bold;
-  }
-</style>
 	<body>
-
-
- <a href="/">Home</a>
- <a href="/about">About</a>
-
+		<a href="/">Home</a>
+		<a href="/about">About</a>
 		<h1>Home Page</h1>
 		<h1>{testVar}</h1>
-
+		
+		<div id="apprunner-data">
+			<h2>Data from AppRunner:</h2>
+			<pre>Loading...</pre>
+		</div>
 	</body>
 </html>
+
+<style define:vars={{skillColor}}>
+	h1 {
+		color: purple;
+		font-size: 4rem;
+	}
+	.skill {
+		color: green;
+		color: var(--skillColor);
+		font-weight: bold;
+	}
+	pre {
+		background-color: #f4f4f4;
+		padding: 1rem;
+		border-radius: 4px;
+		overflow-x: auto;
+	}
+</style>
+
+<script>
+	const APP_RUNNER_URL = 'https://ihiqikgzun.ap-southeast-1.awsapprunner.com';
+
+	async function fetchAppRunnerData() {
+		try {
+			const response = await fetch(`${APP_RUNNER_URL}/api/data`);
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
+			}
+			const data = await response.json();
+			document.querySelector('#apprunner-data pre').textContent = JSON.stringify(data, null, 2);
+		} catch (error) {
+			console.error('Error fetching data from AppRunner:', error);
+			document.querySelector('#apprunner-data pre').textContent = 'Failed to fetch data from AppRunner';
+		}
+	}
+
+	fetchAppRunnerData();
+</script>
