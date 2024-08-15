@@ -2,6 +2,25 @@
 const testVar = "hello"
 const skillColor = "navy"
 import '../styles/global.css'
+
+const APP_RUNNER_URL = 'https://ihiqikgzun.ap-southeast-1.awsapprunner.com';
+
+let appRunnerData = 'Failed to fetch data from AppRunner';
+
+try {
+  const response = await fetch(APP_RUNNER_URL);
+  if (response.ok) {
+    const data = await response.json();
+    appRunnerData = JSON.stringify(data, null, 2);
+  } else {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+} catch (error) {
+  console.error('Error fetching data from AppRunner:', error);
+}
+
+// Add a timestamp to show when the data was last fetched
+const lastFetched = new Date().toLocaleString();
 ---
 
 <html lang="en">
@@ -20,7 +39,8 @@ import '../styles/global.css'
 		
 		<div id="apprunner-data">
 			<h2>Data from AppRunner:</h2>
-			<pre>Loading...</pre>
+			<pre>{appRunnerData}</pre>
+			<p>Last fetched: {lastFetched}</p>
 		</div>
 	</body>
 </html>
@@ -42,33 +62,3 @@ import '../styles/global.css'
 		overflow-x: auto;
 	}
 </style>
-
-<script>
-	const APP_RUNNER_URL = 'https://ihiqikgzun.ap-southeast-1.awsapprunner.com';
-
-	async function fetchAppRunnerData() {
-		try {
-			const response = await fetch(APP_RUNNER_URL);
-			if (!response.ok) {
-				throw new Error(`HTTP error! status: ${response.status}`);
-			}
-			const data = await response.json();
-			const preElement = document.querySelector('#apprunner-data pre');
-			if (preElement) {
-				preElement.textContent = JSON.stringify(data, null, 2);
-			} else {
-				console.error('Could not find element to display data');
-			}
-		} catch (error) {
-			console.error('Error fetching data from AppRunner:', error);
-			const preElement = document.querySelector('#apprunner-data pre');
-			if (preElement) {
-				preElement.textContent = 'Failed to fetch data from AppRunner';
-			} else {
-				console.error('Could not find element to display error message');
-			}
-		}
-	}
-
-	fetchAppRunnerData();
-</script>
