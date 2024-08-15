@@ -48,15 +48,25 @@ import '../styles/global.css'
 
 	async function fetchAppRunnerData() {
 		try {
-			const response = await fetch(`${APP_RUNNER_URL}/api/data`);
+			const response = await fetch(APP_RUNNER_URL);
 			if (!response.ok) {
 				throw new Error(`HTTP error! status: ${response.status}`);
 			}
 			const data = await response.json();
-			document.querySelector('#apprunner-data pre').textContent = JSON.stringify(data, null, 2);
+			const preElement = document.querySelector('#apprunner-data pre');
+			if (preElement) {
+				preElement.textContent = JSON.stringify(data, null, 2);
+			} else {
+				console.error('Could not find element to display data');
+			}
 		} catch (error) {
 			console.error('Error fetching data from AppRunner:', error);
-			document.querySelector('#apprunner-data pre').textContent = 'Failed to fetch data from AppRunner';
+			const preElement = document.querySelector('#apprunner-data pre');
+			if (preElement) {
+				preElement.textContent = 'Failed to fetch data from AppRunner';
+			} else {
+				console.error('Could not find element to display error message');
+			}
 		}
 	}
 
