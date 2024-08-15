@@ -1,10 +1,13 @@
-// astro.config.mjs
 import { defineConfig } from "astro/config";
-import node from "@astrojs/node";
+import mdx from "@astrojs/mdx";
+import awsAmplify from "astro-aws-amplify";
 
+import sitemap from "@astrojs/sitemap";
+
+// https://astro.build/config
 export default defineConfig({
+  site: "https://example.com",
+  integrations: [mdx(), sitemap()],
+  adapter: awsAmplify(),
   output: "server",
-  adapter: node({
-    mode: "standalone",
-  }),
 });
